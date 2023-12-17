@@ -1,1 +1,19 @@
+server:
+  port: 8081
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  datasource:
+      url: jdbc:log4jdbc:postgresql://localhost:5432/my_db
+      username: my_user
+      password: 1234
+
+
+# logging
+logging:
+  level:
+    root: info
 
