@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.myspringsecurityproject.login.repository.LoginRepository">
+
+    <resultMap id="loginMap" type="com.example.myspringsecurityproject.manage.user.domain.UserVO">
+        <result property="userId" column="user_id" />
+        <result property="loginId" column="login_id" />
+        <result property="userPwd" column="user_pwd" />
+        <result property="enabled" column="enabled" />
+        <result property="locked" column="locked" />
+        <result property="expired" column="expired" />
+        <result property="passwordExpired" column="password_expired" />
+        <result property="passwordRespite" column="password_respite" />
+        <result property="status" column="status" />
+        <result property="localUserName" column="local_user_name" />
+        <result property="pwdChangeDttm" column="pwd_chage_dttm" />
+        <result property="expireDttm" column="expire_dttm" />
+        <result property="pwdFailCount" column="pwd_fail_count" />
+        <result property="creatorId" column="creator_id" />
+        <result property="createDttm" column="create_dttm" />
+        <result property="updaterId" column="updater_id" />
+        <result property="updateDttm" column="update_dttm" />
+        <collection property="roles" column="userId=user_id"
+                    javaType="List" ofType="com.example.myspringsecurityproject.manage.user.domain.UserRoleVO"
+                    select="selectUserRoleList" />
+    </resultMap>
+
+    <select id="selectUser" parameterType="map" resultMap="loginMap">
+    /** com.example.myspringsecurityproject.login.repository.LoginRepository.selectUser */
+    <![CDATA[
+    SELECT
+        USER_ID
+         , LOGIN_ID
+         , USER_NAME
+         , USER_PWD
+         , CASE WHEN STATUS = '1' THEN TRUE ELSE FALSE END AS ENABLED
+         , CASE WHEN STATUS = '2' THEN TRUE ELSE FALSE END AS LOCKED
+         , CASE WHEN STATUS = '3' THEN TRUE ELSE FALSE END AS EXPIRED
+         , (NOW() > (COALESCE(PWD_CHANGE_DTTM, CREATE_DTTM) + (CONCAT(180, ' DAY'))::INTERVAL)) AS PASSWORD_EXPIRED
+         , DATE_PART('DAY', (COALESCE(PWD_CHANGE_DTTM, CREATE_DTTM) + (CONCAT (7, ' DAY'))::INTERVAL) - NOW()) AS PASSWORD_RESPITE
+         , CREATOR_ID
+         , CREATE_DTTM
+         , UPDATER_ID
+         , UPDATE_DTTM
+    FROM TFMD_USER TU
+    WHERE LOGIN_ID = #{loginId}
+    ]]>
+    </select>
+
+    <select id="selectUserRoleList" resultType="com.example.myspringsecurityproject.manage.user.domain.UserRoleVO">
+    <![CDATA[
+        SELECT
+            R.ROLE_ID
+             , R.ROLE_CODE
+             , R.ROLE_NAME
+        FROM
+            TFMD_USER_ROLE UR
+                INNER JOIN TFMD_ROLE R
+                           ON  UR.ROLE_ID = R.ROLE_ID
+        WHERE
+            UR.USER_ID = #{userId}
+    ]]>
+    </select>
+
+</mapper>
