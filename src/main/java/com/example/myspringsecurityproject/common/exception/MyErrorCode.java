@@ -1,7 +1,8 @@
 package com.example.myspringsecurityproject.common.exception;
 
 public enum MyErrorCode {
-    ;
+    USER_NOT_FOUND(404, "User not found", "2001"),
+    CREDENTIAL_NOT_MATCHED_EXCEPTION(401, "Credential Not Matched Exception", "2002"),;
 
     private final int status;
     private final String error;

@@ -43,7 +43,7 @@
          , CREATE_DTTM
          , UPDATER_ID
          , UPDATE_DTTM
-    FROM TFMD_USER TU
+    FROM MY_USER TU
     WHERE LOGIN_ID = #{loginId}
     ]]>
     </select>
@@ -55,8 +55,8 @@
              , R.ROLE_CODE
              , R.ROLE_NAME
         FROM
-            TFMD_USER_ROLE UR
-                INNER JOIN TFMD_ROLE R
+            MY_USER_ROLE UR
+                INNER JOIN MY_ROLE R
                            ON  UR.ROLE_ID = R.ROLE_ID
         WHERE
             UR.USER_ID = #{userId}
