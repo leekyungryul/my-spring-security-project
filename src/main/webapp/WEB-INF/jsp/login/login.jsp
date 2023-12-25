@@ -73,6 +73,10 @@
 </div>
 <%@ include file="/WEB-INF/jsp/common/commonBody.jsp" %>
 <script>
+    if (${error}) {
+        alert("${errorMessage}");
+    }
+
     function submit() {
         let username = $("#username").val();
         let password = $("#password").val();

@@ -12,7 +12,7 @@ public class JoinController {
 
     private static final Logger logger = LoggerFactory.getLogger(JoinController.class);
 
-    @GetMapping("/join")
+    @GetMapping("/register")
     public String join() {
 
         return "/join/register";
