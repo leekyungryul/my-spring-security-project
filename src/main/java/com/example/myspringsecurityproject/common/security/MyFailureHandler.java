@@ -47,7 +47,7 @@ public class MyFailureHandler implements AuthenticationFailureHandler {
             errorCode = MyErrorCode.USER_NOT_FOUND.getCode();
         } else if (exception instanceof BadCredentialsException) {
             // 비밀번호 틀림
-            errorCode = "";
+            errorCode = MyErrorCode.CREDENTIAL_NOT_MATCHED_EXCEPTION.getCode();
         } else if (exception instanceof LockedException) {
             // 계정 잠김
             errorCode = "";

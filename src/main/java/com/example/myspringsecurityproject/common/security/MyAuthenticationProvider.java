@@ -2,10 +2,12 @@ package com.example.myspringsecurityproject.common.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.myspringsecurityproject.login.service.impl.MyUserDetailServiceImpl;
 
@@ -24,6 +26,9 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private MyUserDetailServiceImpl userDetailsService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
@@ -31,6 +36,10 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
 
         User user = (User) userDetailsService.loadUserByUsername(username);
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException(username);
+        }
 
         return new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
     }

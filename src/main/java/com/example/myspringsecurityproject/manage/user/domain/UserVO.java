@@ -10,6 +10,8 @@ public class UserVO extends MyVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String loginId;
+    private String userName;
+    private String status;
     private String userPwd;
     private String pwdChangeDttm;
     private String expireDttm;
@@ -28,6 +30,22 @@ public class UserVO extends MyVO implements Serializable {
 
     public void setLoginId(String loginId) {
         this.loginId = loginId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getUserPwd() {

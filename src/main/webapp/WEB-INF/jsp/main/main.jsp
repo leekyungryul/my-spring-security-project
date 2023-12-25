@@ -723,7 +723,7 @@
         </div>
     </div>
 </div>
-<%@ include file="/WEB-INF/jsp/common/commonBody.jsp" %>
+<%@ include file="/WEB-INF/jsp/common/commonBodyMain.jsp" %>
 </body>
 
 </html>
