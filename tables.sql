@@ -8,6 +8,7 @@ create table public.my_user
     user_name       varchar(50),
     user_pwd        varchar(64)  not null,
     status          char         not null,
+    email           varchar(100),
     tel_no          varchar(32),
     timezone_id     varchar(10),
     date_format     varchar(10),
@@ -35,6 +36,7 @@ comment on column public.my_user.login_id is '로그인 아이디';
 comment on column public.my_user.user_name is '사용자 이름';
 comment on column public.my_user.user_pwd is '사용자 비밀번호';
 comment on column public.my_user.status is '사용자 상태';
+comment on column public.my_user.email is '이메일';
 comment on column public.my_user.tel_no is '전화번호';
 comment on column public.my_user.timezone_id is '시간대';
 comment on column public.my_user.date_format is '날짜 형식';

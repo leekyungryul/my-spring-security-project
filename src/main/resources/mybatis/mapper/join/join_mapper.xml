@@ -3,39 +3,4 @@
 
 <mapper namespace="com.example.myspringsecurityproject.join.repository.JoinRepository">
 
-    <insert id="insertUser" parameterType="com.example.myspringsecurityproject.manage.user.domain.UserVO">
-    /** com.example.myspringsecurityproject.join.repository.JoinRepository.insertUser */
-    <![CDATA[
-        INSERT INTO MY_USER
-        (
-            USER_ID
-            , LOGIN_ID
-            , USER_NAME
-            , USER_PWD
-            , STATUS
-            , CREATOR_ID
-            , CREATE_DTTM
-            , UPDATER_ID
-            , UPDATE_DTTM
-        )
-        VALUES
-        (
-            #{userId}
-            , #{loginId}
-            , #{userName}
-            , #{userPwd}
-            , 0
-            , #{userId}
-            , NOW()
-            , #{userId}
-            , NOW()
-        )
-    ]]>
-    <selectKey keyProperty="userId" resultType="java.lang.String" order="BEFORE">
-        <![CDATA[
-        SELECT uuid_generate_v4()
-    ]]>
-    </selectKey>
-    </insert>
-
 </mapper>

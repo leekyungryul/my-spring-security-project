@@ -1,6 +1,8 @@
 package com.example.myspringsecurityproject.login.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.example.myspringsecurityproject.common.constant.MyConstant;
 import com.example.myspringsecurityproject.common.security.MySecurityUser;
 import com.example.myspringsecurityproject.login.service.LoginService;
+import com.example.myspringsecurityproject.manage.user.domain.UserRoleVO;
 import com.example.myspringsecurityproject.manage.user.domain.UserVO;
 
 /**
@@ -30,6 +33,8 @@ import com.example.myspringsecurityproject.manage.user.domain.UserVO;
 public class MyUserDetailServiceImpl implements UserDetailsService {
 
     private static final Logger logger = LoggerFactory.getLogger(MyUserDetailServiceImpl.class);
+
+    private static final String COMMON = "COMMON";
 
     @Autowired
     LoginService loginService;
@@ -50,7 +55,29 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with loginId: " + loginId);
         }
 
+        setCommonRole(user);
+
         return new MySecurityUser(user);
 
+    }
+
+    private void setCommonRole(UserVO user) {
+        List<UserRoleVO> roles = user.getRoles();
+
+        if (roles == null || roles.isEmpty()) {
+            roles = new ArrayList<>();
+            roles.add(createCommonRole());
+            user.setRoles(roles);
+        }
+    }
+
+    private UserRoleVO createCommonRole() {
+
+        UserRoleVO userRoleVO = new UserRoleVO();
+        userRoleVO.setRoleId(COMMON);
+        userRoleVO.setRoleCode(COMMON);
+        userRoleVO.setRoleName(COMMON);
+
+        return userRoleVO;
     }
 }

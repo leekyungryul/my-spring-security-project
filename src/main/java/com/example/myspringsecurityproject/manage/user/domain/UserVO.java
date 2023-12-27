@@ -12,6 +12,7 @@ public class UserVO extends MyVO implements Serializable {
     private String loginId;
     private String userName;
     private String status;
+    private String email;
     private String userPwd;
     private String pwdChangeDttm;
     private String expireDttm;
@@ -23,6 +24,8 @@ public class UserVO extends MyVO implements Serializable {
     private boolean locked;
     private String role;
     private List<UserRoleVO> roles;
+    private String provider;
+    private String providerUserId;
 
     public String getLoginId() {
         return loginId;
@@ -46,6 +49,14 @@ public class UserVO extends MyVO implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUserPwd() {
@@ -134,5 +145,21 @@ public class UserVO extends MyVO implements Serializable {
 
     public void setRoles(List<UserRoleVO> roles) {
         this.roles = roles;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderUserId() {
+        return providerUserId;
+    }
+
+    public void setProviderUserId(String providerUserId) {
+        this.providerUserId = providerUserId;
     }
 }

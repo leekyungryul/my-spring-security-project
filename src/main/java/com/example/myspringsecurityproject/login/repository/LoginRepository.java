@@ -13,4 +13,5 @@ public interface LoginRepository {
 
     UserVO selectUser(Map<String, Object> params);
 
+    UserVO findByOAuth2Id(Map<String, Object> params);
 }

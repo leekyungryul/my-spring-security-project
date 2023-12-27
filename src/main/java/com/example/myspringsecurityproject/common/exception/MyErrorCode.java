@@ -2,7 +2,19 @@ package com.example.myspringsecurityproject.common.exception;
 
 public enum MyErrorCode {
     USER_NOT_FOUND(404, "User not found", "2001"),
-    CREDENTIAL_NOT_MATCHED_EXCEPTION(401, "Credential Not Matched Exception", "2002"),;
+    CREDENTIAL_NOT_MATCHED_EXCEPTION(401, "Credential Not Matched Exception", "2002"),
+    USER_DISABLE_EXCEPTION(401, "User Disable Exception", "2003"),
+    USER_LOCKED_EXCEPTION(401, "User Locked Exception", "2004"),
+    CREDENTIAL_EXPIRED_EXCEPTION(401, "Account Expired Exception", "2005"),
+    BAD_REQUEST_EXCEPTION(400, "Bad Request Exception", "400"),
+    UN_AUTHORIZED_EXCEPTION(401, "Unauthorized Exception", "401"),
+    FORBIDDEN_EXCEPTION(403, "Forbidden Exception", "403"),
+    NOT_FOUND_EXCEPTION(404, "Not Found Exception", "404"),
+    METHOD_NOT_ALLOWED(405, "Method Not Allowed Exception", "405"),
+    REQUEST_TIMEOUT_EXCEPTION(408, "Request Timeout Exception", "408"),
+    USER_EXIST_EXCEPTION(400, "User Exist Exception", "409"),
+
+    ;
 
     private final int status;
     private final String error;

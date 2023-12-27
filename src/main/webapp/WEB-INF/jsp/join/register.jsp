@@ -28,21 +28,20 @@
                         </div>
                         <form class="user">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="inputName"
-                                       placeholder="Name">
+                                <input type="text" class="form-control form-control-user" id="inputName" placeholder="Name" value="${name}">
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-user" id="inputEmail"
-                                       placeholder="Email Address">
+                                <input type="email" class="form-control form-control-user" id="inputEmail" placeholder="Email Address" value="${email}">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control form-control-user" id="inputId" placeholder="Id" value="">
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user" id="inputPassword"
-                                           placeholder="Password">
+                                    <input type="password" class="form-control form-control-user" id="inputPassword" placeholder="Password">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control form-control-user" id="repeatPassword"
-                                           placeholder="Repeat Password">
+                                    <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="Repeat Password">
                                 </div>
                             </div>
                             <a id="goRegister" href="" class="btn btn-primary btn-user btn-block">
@@ -61,8 +60,7 @@
                             <a class="small" href="forgot-password.html">Forgot Password?</a>
                         </div>
                         <div class="text-center">
-                            <a class="small" href="${pageContext.request.contextPath}/login">Already have an account?
-                                Login!</a>
+                            <a class="small" href="${pageContext.request.contextPath}/login">Already have an account? Login!</a>
                         </div>
                     </div>
                 </div>
@@ -73,58 +71,88 @@
 </div>
 <%@ include file="/WEB-INF/jsp/common/commonBody.jsp" %>
 <script>
+
+    if (${isOAuth}) {
+        debugger;
+        if (window.confirm('${provider}' + "계정으로 가입내역이 없습니다." + '\n${provider}' + "계정으로 가입하시겠습니까?")) {
+            console.log('${email}')
+            console.log('${name}')
+            console.log('${provider}')
+            console.log('${providerUserId}')
+        } else {
+            location.href = "${pageContext.request.contextPath}/login";
+        }
+    }
+
+    if (${error}) {
+        alert("${errorMessage}");
+    }
+
     $(document).ready(function () {
         $("#goRegister").click(function (e) {
             e.preventDefault();
             let name = $("#inputName").val();
             let email = $("#inputEmail").val();
+            let id = $("#inputId").val();
             let password = $("#inputPassword").val();
             let repeatPassword = $("#repeatPassword").val();
-            if (name == "") {
+            if (name === "") {
                 alert("이름을 입력해주세요.");
                 $("#inputName").focus();
                 return false;
             }
-            if (email == "") {
+            if (email === "") {
                 alert("이메일을 입력해주세요.");
                 $("#inputEmail").focus();
                 return false;
             }
-            if (password == "") {
+            if (id === "") {
+                alert("아이디를 입력해주세요.");
+                $("#inputId").focus();
+                return false;
+            }
+            if (password === "") {
                 alert("비밀번호를 입력해주세요.");
                 $("#inputPassword").focus();
                 return false;
             }
-            if (repeatPassword == "") {
+            if (repeatPassword === "") {
                 alert("비밀번호를 입력해주세요.");
                 $("#repeatPassword").focus();
                 return false;
             }
-            if (password != repeatPassword) {
+            if (password !== repeatPassword) {
                 alert("비밀번호가 일치하지 않습니다.");
                 $("#repeatPassword").focus();
                 return false;
             }
-
-            let params = {
-                userName: name,
-                loginId: email,
-                userPwd: password
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "${pageContext.request.contextPath}/join/register",
-                data: JSON.stringify(params),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json"
-            }).done(function (data) {
-                alert("회원가입이 완료되었습니다.");
-                location.href = "${pageContext.request.contextPath}/login";
-            }).fail(function (xhr, status, errorThrown) {
-                console.log(xhr);
-                alert("회원가입에 실패하였습니다.");
-            });
+            if (window.confirm("회원가입 하시겠습니까?")) {
+                let params = {};
+                params.userName = name
+                params.email = email
+                params.loginId = id
+                params.userPwd = password
+                if (${isOAuth}) {
+                    params.provider = '${provider}'
+                    params.providerUserId = '${providerUserId}'
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "${pageContext.request.contextPath}/join/register",
+                    data: JSON.stringify(params),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                }).done(function (data) {
+                    alert("회원가입이 완료되었습니다.");
+                    location.href = "${pageContext.request.contextPath}/login";
+                }).fail(function (xhr, status, errorThrown) {
+                    console.log(xhr);
+                    alert("status : " + xhr.responseJSON.status + "\nmessage : " + xhr.responseJSON.message);
+                    // alert("회원가입에 실패하였습니다.");
+                });
+            } else {
+                return false;
+            }
         });
     });
 </script>

@@ -1,6 +1,7 @@
 package com.example.myspringsecurityproject.join.service.impl;
 
 import java.util.Map;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import com.example.myspringsecurityproject.common.exception.MyException;
 import com.example.myspringsecurityproject.join.repository.JoinRepository;
 import com.example.myspringsecurityproject.join.service.JoinService;
 import com.example.myspringsecurityproject.manage.user.domain.UserVO;
+import com.example.myspringsecurityproject.manage.user.repository.UserRepository;
 
 @Service
 @Transactional(rollbackFor = MyException.class)
@@ -20,6 +22,9 @@ public class JoinServiceImpl implements JoinService {
 
     @Autowired
     private JoinRepository repository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -36,6 +41,12 @@ public class JoinServiceImpl implements JoinService {
 
         logger.info("params: {}", params);
 
-        return repository.insertUser(params);
+        userRepository.insertUser(params);
+
+        if (params.getProvider()!=null) {
+            userRepository.insertOAuthUserInfo(params);
+        }
+
+        return 0;
     }
 }

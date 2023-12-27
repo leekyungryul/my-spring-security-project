@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.myspringsecurityproject.common.security.MyAuthenticationProvider;
 import com.example.myspringsecurityproject.common.security.MyFailureHandler;
+import com.example.myspringsecurityproject.common.security.MyOAuthAuthenticationProvider;
 import com.example.myspringsecurityproject.common.security.MySuccessHandler;
 
 @Configuration
@@ -27,6 +28,10 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         return new MyAuthenticationProvider();
+    }
+    @Bean
+    public AuthenticationProvider oAuthAuthenticationProvider() {
+        return new MyOAuthAuthenticationProvider();
     }
 
     @Bean
@@ -46,6 +51,7 @@ public class SecurityConfig {
                 , "/js/**"
                 , "/images/**"
                 , "/fonts/**"
+                , "/favicon/**"
                 , "/favicon.ico");
     }
 
@@ -57,7 +63,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .headers()
                 .and()
-                .authorizeRequests().antMatchers("/", "/login", "/join/**").permitAll()
+                .authorizeRequests().antMatchers("/", "/login", "/join/**", "/intro/**", "/auth/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
