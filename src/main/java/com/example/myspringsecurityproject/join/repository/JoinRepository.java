@@ -11,5 +11,4 @@ import com.example.myspringsecurityproject.manage.user.domain.UserVO;
 @Mapper
 public interface JoinRepository {
 
-    int insertUser(UserVO params);
 }

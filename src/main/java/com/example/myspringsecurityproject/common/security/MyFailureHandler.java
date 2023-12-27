@@ -50,13 +50,13 @@ public class MyFailureHandler implements AuthenticationFailureHandler {
             errorCode = MyErrorCode.CREDENTIAL_NOT_MATCHED_EXCEPTION.getCode();
         } else if (exception instanceof LockedException) {
             // 계정 잠김
-            errorCode = "";
+            errorCode = MyErrorCode.USER_LOCKED_EXCEPTION.getCode();
         } else if (exception instanceof DisabledException) {
             // 계정 비활성화
-            errorCode = "";
+            errorCode = MyErrorCode.USER_DISABLE_EXCEPTION.getCode();
         } else if (exception instanceof CredentialsExpiredException) {
             // 비밀번호 만료
-            errorCode = "";
+            errorCode = MyErrorCode.CREDENTIAL_EXPIRED_EXCEPTION.getCode();
         } else {
             // 기타
             errorCode = "";

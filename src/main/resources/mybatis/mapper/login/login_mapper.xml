@@ -63,4 +63,14 @@
     ]]>
     </select>
 
+    <select id="findByOAuth2Id" parameterType="map" resultType="com.example.myspringsecurityproject.manage.user.domain.UserVO">
+    <![CDATA[
+        SELECT *
+        FROM MY_USER
+                 LEFT JOIN MY_USER_OAUTH ON MY_USER_OAUTH.USER_ID = MY_USER.USER_ID
+        WHERE MY_USER_OAUTH.PROVIDER = #{provider}
+          AND MY_USER_OAUTH.PROVIDER_USER_ID = #{providerUserId}
+    ]]>
+    </select>
+
 </mapper>
