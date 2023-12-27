@@ -114,6 +114,37 @@ comment on column public.my_user_role.update_dttm is '수정일시';
 alter table public.my_user_role
     owner to my_user;
 
+-- 사용자 oAuth2 정보 테이블
+create table public.my_user_oauth
+(
+    user_id          varchar(36) not null,
+    provider         varchar(20) not null,
+    provider_user_id varchar(50) not null,
+    creator_id       varchar(36),
+    create_dttm       timestamp,
+    updater_id       varchar(36),
+    update_dttm       timestamp
+);
+
+comment on table public.my_user_oauth is 'oauth user info';
+
+comment on column public.my_user_oauth.user_id is 'user id';
+
+comment on column public.my_user_oauth.provider is 'oauth provider';
+
+comment on column public.my_user_oauth.provider_user_id is 'oauth provider user id';
+
+comment on column public.my_user_oauth.creator_id is 'creator id';
+
+comment on column public.my_user_oauth.create_dttm is 'create date time';
+
+comment on column public.my_user_oauth.updater_id is 'updater id';
+
+comment on column public.my_user_oauth.update_dttm is 'update date time';
+
+alter table public.my_user_oauth
+    owner to my_user;
+
 
 
 SELECT * FROM pg_extension;
