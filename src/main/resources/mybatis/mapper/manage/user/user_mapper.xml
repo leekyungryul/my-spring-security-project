@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.myspringsecurityproject.manage.user.repository.UserRepository">
+
+    <insert id="insertUser" parameterType="com.example.myspringsecurityproject.manage.user.domain.UserVO">
+    /** com.example.myspringsecurityproject.user.repository.UserRepository.insertUser */
+    <![CDATA[
+        INSERT INTO MY_USER
+        (
+            USER_ID
+            , LOGIN_ID
+            , USER_NAME
+            , EMAIL
+            , USER_PWD
+            , STATUS
+            , CREATOR_ID
+            , CREATE_DTTM
+            , UPDATER_ID
+            , UPDATE_DTTM
+        )
+        VALUES
+        (
+            #{userId}
+            , #{loginId}
+            , #{userName}
+            , #{email}
+            , #{userPwd}
+            , 1
+            , #{userId}
+            , NOW()
+            , #{userId}
+            , NOW()
+        )
+    ]]>
+    <selectKey keyProperty="userId" resultType="java.lang.String" order="BEFORE">
+        <![CDATA[
+        SELECT uuid_generate_v4()
+    ]]>
+    </selectKey>
+    </insert>
+
+    <insert id="insertOAuthUserInfo" parameterType="com.example.myspringsecurityproject.manage.user.domain.UserVO">
+    /** com.example.myspringsecurityproject.user.repository.UserRepository.insertOAuthUserInfo */
+    <![CDATA[
+        INSERT INTO MY_USER_OAUTH
+            (USER_ID
+            , PROVIDER
+            , PROVIDER_USER_ID
+            , CREATOR_ID
+            , CREATE_DTTM)
+        VALUES (#{userId}
+               , #{provider}
+               , #{providerUserId}
+               , #{userId}
+               , NOW())
+    ]]>
+    </insert>
+
+    <select id="getDuplicationIdCnt" parameterType="java.lang.String" resultType="integer">
+    /** com.example.myspringsecurityproject.user.repository.UserRepository.selectUserByLoginId */
+    <![CDATA[
+        SELECT COUNT(*)
+        FROM MY_USER
+        WHERE LOGIN_ID = #{id};
+    ]]>
+    </select>
+
+    <update id="updateUserPwd" parameterType="com.example.myspringsecurityproject.manage.user.domain.UserVO">
+    /** com.example.myspringsecurityproject.user.repository.UserRepository.updateUserPwd */
+    <![CDATA[
+        UPDATE MY_USER
+        SET USER_PWD = #{userPwd}
+            , UPDATER_ID = #{userId}
+            , UPDATE_DTTM = NOW()
+        WHERE LOGIN_ID = #{loginId}
+    ]]>
+    </update>
+
+</mapper>
