@@ -66,4 +66,15 @@
     ]]>
     </select>
 
+    <update id="updateUserPwd" parameterType="com.example.myspringsecurityproject.manage.user.domain.UserVO">
+    /** com.example.myspringsecurityproject.user.repository.UserRepository.updateUserPwd */
+    <![CDATA[
+        UPDATE MY_USER
+        SET USER_PWD = #{userPwd}
+            , UPDATER_ID = #{userId}
+            , UPDATE_DTTM = NOW()
+        WHERE LOGIN_ID = #{loginId}
+    ]]>
+    </update>
+
 </mapper>
