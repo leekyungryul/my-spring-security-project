@@ -7,10 +7,12 @@ public enum MyErrorCode {
     USER_LOCKED_EXCEPTION(401, "User Locked Exception", "2004"),
     CREDENTIAL_EXPIRED_EXCEPTION(401, "Account Expired Exception", "2005"),
     BAD_REQUEST_EXCEPTION(400, "Bad Request Exception", "400"),
+    AUTHENTICATION_TIME_OUT_EXCEPTION(400, "Authentication Time Out Exception", "2006"),
     UN_AUTHORIZED_EXCEPTION(401, "Unauthorized Exception", "401"),
     FORBIDDEN_EXCEPTION(403, "Forbidden Exception", "403"),
     NOT_FOUND_EXCEPTION(404, "Not Found Exception", "404"),
     METHOD_NOT_ALLOWED(405, "Method Not Allowed Exception", "405"),
+    MY_EXCEPTION(406, "My Exception", "1000"),
     REQUEST_TIMEOUT_EXCEPTION(408, "Request Timeout Exception", "408"),
     USER_EXIST_EXCEPTION(400, "User Exist Exception", "409"),
 

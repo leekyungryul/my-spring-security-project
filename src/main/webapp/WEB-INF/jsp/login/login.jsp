@@ -51,13 +51,15 @@
                                 </form>
                                 <a id="submitBtn" class="btn btn-primary btn-user btn-block">Login</a>
                                 <hr>
-                                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=803bba301ece0ff0621c3e274fe8e6b2&redirect_uri=http://localhost:8080/auth/kakao/callback" class="btn btn-google btn-user btn-block"><i class="fab fa-google fa-fw"></i> Login with Kakao</a>
-                                <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bQI9RwpG4sp4afTMjGx1&state=1234&redirect_uri=http://localhost:8080/auth/naver/callback" class="btn btn-google btn-user btn-block"><i class="fab fa-google fa-fw"></i> Login with Naver</a>
+                                <a href="${pageContext.request.contextPath}/auth/requestCode?provider=kakao" class="btn btn-google btn-user btn-block"><i class="fab fa-google fa-fw"></i> Login with Kakao</a>
+<%--                                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=803bba301ece0ff0621c3e274fe8e6b2&redirect_uri=http://localhost:8080/auth/kakao/callback" class="btn btn-google btn-user btn-block"><i class="fab fa-google fa-fw"></i> Login with Kakao</a>--%>
+                                <a href="${pageContext.request.contextPath}/auth/requestCode?provider=naver" class="btn btn-google btn-user btn-block"><i class="fab fa-google fa-fw"></i> Login with Naver</a>
+<%--                                <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bQI9RwpG4sp4afTMjGx1&state=1234&redirect_uri=http://localhost:8080/auth/naver/callback" class="btn btn-google btn-user btn-block"><i class="fab fa-google fa-fw"></i> Login with Naver</a>--%>
                                 <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=459659918032-rnilo9h5h397uj331k0g0qgit8jlpsrh.apps.googleusercontent.com&redirect_uri=http://localhost:8080/auth/google/callback&scope=https://www.googleapis.com/auth/drive.metadata.readonly&response_type=code" class="btn btn-google btn-user btn-block"><i class="fab fa-google fa-fw"></i> Login with Google</a>
                                 <a href="index.html" class="btn btn-facebook btn-user btn-block"><i class="fab fa-facebook-f fa-fw"></i> Login with Facebook</a>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                    <a class="small" href="${pageContext.request.contextPath}/forgotPassword">Forgot Password?</a>
                                 </div>
                                 <div class="text-center">
                                     <a class="small" href="${pageContext.request.contextPath}/join/register">Create an Account!</a>
@@ -67,14 +69,12 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
 </div>
 <%@ include file="/WEB-INF/jsp/common/commonBody.jsp" %>
 <script>
+
     if (${error}) {
         alert("${errorMessage}");
         location.href = "${pageContext.request.contextPath}/login";
@@ -91,6 +91,7 @@
     }
 
     $(document).ready(function () {
+
         $("#submitBtn").click(function () {
             submit();
         });

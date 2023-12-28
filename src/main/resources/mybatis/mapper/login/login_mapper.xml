@@ -24,6 +24,9 @@
         <collection property="roles" column="userId=user_id"
                     javaType="List" ofType="com.example.myspringsecurityproject.manage.user.domain.UserRoleVO"
                     select="selectUserRoleList" />
+        <collection property="oauth2Authorities" column="userId=user_id"
+                    javaType="List" ofType="com.example.myspringsecurityproject.manage.user.domain.OAuth2AuthorityVO"
+                    select="selectOAuth2AuthorityList" />
     </resultMap>
 
     <select id="selectUser" parameterType="map" resultMap="loginMap">
@@ -60,6 +63,18 @@
                            ON  UR.ROLE_ID = R.ROLE_ID
         WHERE
             UR.USER_ID = #{userId}
+    ]]>
+    </select>
+
+    <select id="selectOAuth2AuthorityList" resultType="com.example.myspringsecurityproject.manage.user.domain.UserOAuth2VO">
+    <![CDATA[
+        SELECT
+            PROVIDER
+             , PROVIDER_USER_ID
+        FROM
+            MY_USER_OAUTH
+        WHERE
+            USER_ID = #{userId}
     ]]>
     </select>
 

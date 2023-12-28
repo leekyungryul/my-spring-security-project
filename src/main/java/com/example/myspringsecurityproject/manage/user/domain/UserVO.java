@@ -26,6 +26,7 @@ public class UserVO extends MyVO implements Serializable {
     private List<UserRoleVO> roles;
     private String provider;
     private String providerUserId;
+    private List<UserOAuth2VO> oauth2Authorities;
 
     public String getLoginId() {
         return loginId;
@@ -161,5 +162,13 @@ public class UserVO extends MyVO implements Serializable {
 
     public void setProviderUserId(String providerUserId) {
         this.providerUserId = providerUserId;
+    }
+
+    public List<UserOAuth2VO> getOauth2Authorities() {
+        return oauth2Authorities;
+    }
+
+    public void setOauth2Authorities(List<UserOAuth2VO> oauth2Authorities) {
+        this.oauth2Authorities = oauth2Authorities;
     }
 }

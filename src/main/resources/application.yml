@@ -12,6 +12,22 @@ spring:
       username: my_user
       password: 1234
 
+  ## Email settings
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    protocol: smtp
+    username: leekyung1111@gmail.com
+    password: 
+    debug: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
+
   messages:
     basename: messages.i18n.error
     encoding: UTF-8

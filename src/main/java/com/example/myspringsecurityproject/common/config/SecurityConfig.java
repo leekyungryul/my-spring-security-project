@@ -29,6 +29,7 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider() {
         return new MyAuthenticationProvider();
     }
+
     @Bean
     public AuthenticationProvider oAuthAuthenticationProvider() {
         return new MyOAuthAuthenticationProvider();
@@ -63,7 +64,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .headers()
                 .and()
-                .authorizeRequests().antMatchers("/", "/login", "/join/**", "/intro/**", "/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/", "/login","/forgotPassword", "/join/**", "/intro/**", "/auth/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .and()

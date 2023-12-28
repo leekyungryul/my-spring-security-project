@@ -1,16 +1,19 @@
 package com.example.myspringsecurityproject.login.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,14 +27,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.myspringsecurityproject.common.constant.MyConstant;
+import com.example.myspringsecurityproject.common.exception.MyErrorCode;
+import com.example.myspringsecurityproject.common.exception.MyException;
 import com.example.myspringsecurityproject.login.domain.KakaoOAuthToken;
 import com.example.myspringsecurityproject.login.domain.KakaoUserInfo;
 import com.example.myspringsecurityproject.login.domain.NaverUserInfo;
 import com.example.myspringsecurityproject.login.service.LoginService;
+import com.example.myspringsecurityproject.mail.service.MailService;
 import com.example.myspringsecurityproject.manage.user.domain.UserVO;
 
 @Controller
@@ -62,7 +71,7 @@ public class LoginController {
     private PasswordEncoder passwordEncoder;
 
     @RequestMapping("/login")
-    public String login(Model model, HttpServletRequest request) {
+    public String login(Model model, HttpServletRequest request) throws MyException{
 
         if (request.getAttribute(ERROR) != null && (Boolean)request.getAttribute(ERROR)) {
             model.addAttribute(ERROR, true);
@@ -85,6 +94,20 @@ public class LoginController {
         return "/login/login";
     }
 
+    @RequestMapping("/forgotPassword")
+    public String forgotPasswordPage() {
+        return "/login/forgotPassword";
+    }
+
+    /**
+     * 카카오 로그인 callback
+     * @param model
+     * @param code
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     @RequestMapping("/auth/kakao/callback")
     public void kakaoCallback(Model model, String code, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -113,6 +136,15 @@ public class LoginController {
         }
     }
 
+    /**
+     * 네이버 로그인 callback
+     * @param model
+     * @param code
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     @RequestMapping("/auth/naver/callback")
     public void naverCallback(Model model, String code, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -145,6 +177,15 @@ public class LoginController {
 
     }
 
+    /**
+     * 구글 로그인 callback
+     * @param model
+     * @param code
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     @RequestMapping("/auth/google/callback")
     public void googleCallback(Model model, String code, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 

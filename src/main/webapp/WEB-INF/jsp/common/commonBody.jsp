@@ -7,3 +7,5 @@
 
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/js/sb-admin-2/sb-admin-2.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/js/common/common.js"></script>

@@ -3,6 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <!-- Custom fonts for this template-->
 <link href="${pageContext.request.contextPath}/css/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link
@@ -11,3 +13,8 @@
 
 <!-- Custom styles for this template-->
 <link href="${pageContext.request.contextPath}/css/sb-admin-2/sb-admin-2.min.css" rel="stylesheet">
+
+
+<script>
+    var _contextPath = '<c:out value="${contextPath}"/>';
+</script>
