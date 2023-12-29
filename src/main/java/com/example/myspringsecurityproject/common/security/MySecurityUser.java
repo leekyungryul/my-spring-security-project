@@ -60,4 +60,19 @@ public class MySecurityUser extends User {
         return authorities;
     }
 
+    public UserVO getMyUser() {
+        return myUser;
+    }
+
+    public void setMyUser(UserVO myUser) {
+        this.myUser = myUser;
+    }
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
 }

@@ -27,6 +27,8 @@ public class MainController {
 
         logger.debug("authentication : {}", authentication);
 
+        model.addAttribute("userVO", userVO);
+
         return "/main/main";
     }
 }

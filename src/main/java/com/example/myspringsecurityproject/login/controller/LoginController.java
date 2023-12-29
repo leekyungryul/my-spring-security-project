@@ -62,9 +62,6 @@ public class LoginController {
     private static final String F_NAVER = "naver";
 
     @Autowired
-    private AuthenticationProvider oAuthAuthenticationProvider;
-
-    @Autowired
     private LoginService service;
 
     @Autowired
@@ -99,83 +96,7 @@ public class LoginController {
         return "/login/forgotPassword";
     }
 
-    /**
-     * 카카오 로그인 callback
-     * @param model
-     * @param code
-     * @param request
-     * @param response
-     * @throws IOException
-     * @throws ServletException
-     */
-    @RequestMapping("/auth/kakao/callback")
-    public void kakaoCallback(Model model, String code, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        Map<String, Object> result = service.findByKakaoId(code);
-        UserVO user = (UserVO) result.get("user");
-        KakaoUserInfo userInfo = (KakaoUserInfo) result.get(OAUTH2_USER_INFO);
-        String name = userInfo.getProperties().getNickname();
-
-        // 기존 사용자라면 로그인 처리
-        if (null != user) {
-            String id = user.getLoginId();
-            String password = user.getUserPwd();
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(id, password);
-            Authentication authentication = oAuthAuthenticationProvider.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            response.sendRedirect("/main");
-        // 기존 사용자가 아니라면 회원가입 페이지로 유도
-        } else {
-            request.setAttribute(IS_OAUTH, true);
-            request.setAttribute(OAUTH_MESSAGE, "기존 가입정보가 없습니다.");
-            request.setAttribute(OAUTH2_USER_NAME, name);
-            request.setAttribute(OAUTH2_USER_EMAIL, userInfo.getKakao_account().getEmail());
-            request.setAttribute(PROVIDER, F_KAKAO);
-            request.setAttribute(PROVIDER_USER_ID, userInfo.getId());
-            request.getRequestDispatcher("/join/register").forward(request, response);
-        }
-    }
-
-    /**
-     * 네이버 로그인 callback
-     * @param model
-     * @param code
-     * @param request
-     * @param response
-     * @throws IOException
-     * @throws ServletException
-     */
-    @RequestMapping("/auth/naver/callback")
-    public void naverCallback(Model model, String code, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-        Map<String, Object> result = service.findByNaverId(code);
-        UserVO user = (UserVO) result.get("user");
-        NaverUserInfo userInfo = (NaverUserInfo) result.get(OAUTH2_USER_INFO);
-        String name = userInfo.getName();
-        String email = userInfo.getEmail();
-
-        if (user != null) {
-            // 기존 사용자라면 로그인 처리
-            String id = user.getLoginId();
-            String password = user.getUserPwd();
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(id, password);
-            Authentication authentication = oAuthAuthenticationProvider.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else {
-            // 기존 사용자가 아니라면 회원가입 페이지로 유도
-            request.setAttribute(IS_OAUTH, true);
-            request.setAttribute(OAUTH_MESSAGE, "기존 가입정보가 없습니다.");
-            request.setAttribute(OAUTH2_USER_NAME, name);
-            request.setAttribute(OAUTH2_USER_EMAIL, email);
-            request.setAttribute(PROVIDER, F_NAVER);
-            request.setAttribute(PROVIDER_USER_ID, userInfo.getId());
-            request.getRequestDispatcher("/join/register").forward(request, response);
-            return;
-        }
-
-        response.sendRedirect("/main");
-
-    }
 
     /**
      * 구글 로그인 callback
