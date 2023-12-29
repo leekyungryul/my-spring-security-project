@@ -64,7 +64,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .headers()
                 .and()
-                .authorizeRequests().antMatchers("/", "/login","/forgotPassword", "/join/**", "/intro/**", "/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/", "/login","/forgotPassword", "/join/**", "/intro/**", "/auth/**", "/api/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .and()

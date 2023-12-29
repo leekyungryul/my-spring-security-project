@@ -13,6 +13,7 @@ public class UserVO extends MyVO implements Serializable {
     private String userName;
     private String status;
     private String email;
+    private String language;
     private String userPwd;
     private String pwdChangeDttm;
     private String expireDttm;
@@ -58,6 +59,14 @@ public class UserVO extends MyVO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public String getUserPwd() {

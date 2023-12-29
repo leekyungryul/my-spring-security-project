@@ -71,10 +71,10 @@ public class AuthController {
 
         switch (provider) {
             case "kakao":
-                url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=803bba301ece0ff0621c3e274fe8e6b2&redirect_uri=http://localhost:8080/auth/kakao/callback";
+                url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=803bba301ece0ff0621c3e274fe8e6b2&redirect_uri=http://localhost:8080/api/auth/kakao/callback";
                 break;
             case "naver":
-                url = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bQI9RwpG4sp4afTMjGx1&state=1234&redirect_uri=http://localhost:8080/auth/naver/callback";
+                url = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bQI9RwpG4sp4afTMjGx1&state=1234&redirect_uri=http://localhost:8080/api/auth/naver/callback";
                 break;
             default:
                 break;
