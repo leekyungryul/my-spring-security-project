@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+    <%@ include file="/WEB-INF/jsp/common/commonHead.jsp" %>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -169,35 +170,41 @@
                 <!-- To make this form functional, sign up at-->
                 <!-- https://startbootstrap.com/solution/contact-forms-->
                 <!-- to get an API token!-->
-                <form id="contactForm" data-sb-form-api-token="fa6db2b2-8157-4123-97c9-3e39a91ab0c2">
+                <form id="contactForm" enctype="multipart/form-data" data-sb-form-api-token="">
                     <!-- Name input-->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                        <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
                         <label for="name">Full name</label>
                         <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                     </div>
                     <!-- Email address input-->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                        <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
                         <label for="email">Email address</label>
                         <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                         <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
                     </div>
                     <!-- Phone number input-->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                        <input class="form-control" id="phone" name="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
                         <label for="phone">Phone number</label>
                         <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
                     </div>
                     <!-- Message input-->
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                        <textarea class="form-control" id="message" name="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
                         <label for="message">Message</label>
                         <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
                     </div>
                     <!-- Submit success message-->
                     <!---->
                     <!-- This is what your users will see when the form-->
+                    <!-- send mail progress-->
+                    <div class="d-none" id="submitProgressMessage">
+                        <div class="text-center mb-3">
+                            <div class="fw-bolder">전송중입니다...</div>
+                        </div>
+                    </div>
                     <!-- has successfully submitted-->
                     <div class="d-none" id="submitSuccessMessage">
                         <div class="text-center mb-3">
@@ -213,7 +220,7 @@
                     <!-- an error submitting the form-->
                     <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
                     <!-- Submit Button-->
-                    <button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Send</button>
+                    <button class="btn btn-primary btn-xl disabled" id="submitButton" type="button">Send</button>
                 </form>
             </div>
         </div>
@@ -457,6 +464,133 @@
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+<%--<script src="${pageContext.request.contextPath}/js/intro/sb-forms-latest.js"></script>--%>
+<script src="${pageContext.request.contextPath}/js/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/common/common.js"></script>
+<script>
+
+    let fnCheckContactForm = function () {
+        let name = $('#name').val();
+        let email = $('#email').val();
+        let phone = $('#phone').val();
+        let message = $('#message').val();
+
+        return !(name === "" || email === "" || phone === "" || message === "");
+
+    }
+
+    $(document).ready(function () {
+
+        $('#name').on('blur', function () {
+            if($(this).val() === ""){
+                $('#name').addClass("is-invalid");
+            } else {
+                $('#name').removeClass("is-invalid");
+            }
+            if (fnCheckContactForm()){
+                $("#submitButton").removeClass("disabled");
+            } else {
+                $("#submitButton").addClass("disabled");
+            }
+        });
+
+        $('#email').on('blur', function () {
+            if($(this).val() === ""){
+                $('#email').addClass("is-invalid");
+            } else {
+                $('#email').removeClass("is-invalid");
+            }
+            if (fnCheckContactForm()){
+                $("#submitButton").removeClass("disabled");
+            } else {
+                $("#submitButton").addClass("disabled");
+            }
+        });
+
+        $('#phone').on('blur', function () {
+            if($(this).val() === ""){
+                $('#phone').addClass("is-invalid");
+            } else {
+                $('#phone').removeClass("is-invalid");
+            }
+            if (fnCheckContactForm()){
+                $("#submitButton").removeClass("disabled");
+            } else {
+                $("#submitButton").addClass("disabled");
+            }
+        });
+
+        $('#message').on('blur', function () {
+            if($(this).val() === ""){
+                $('#message').addClass("is-invalid");
+            } else {
+                $('#message').removeClass("is-invalid");
+            }
+            if (fnCheckContactForm()){
+                $("#submitButton").removeClass("disabled");
+            } else {
+                $("#submitButton").addClass("disabled");
+            }
+        });
+
+        $("#submitButton").on('click', function (e) {
+            e.preventDefault();
+            let formData =  new FormData($("#contactForm")[0]);
+
+            $.ajax({
+                url: "${pageContext.request.contextPath}/intro/contact/mailSend",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    // ajax 요청이 시작되기 전에 수행할 작업
+                    $('#submitProgressMessage').removeClass("d-none");
+                    $("#submitSuccessMessage").addClass("d-none");
+                    $("#submitErrorMessage").addClass("d-none");
+                    $("#submitButton").addClass("disabled")
+                },
+                success: function (data) {
+                    $("#submitSuccessMessage").removeClass("d-none");
+                    $("#submitErrorMessage").addClass("d-none");
+                    $('#name').val("");
+                    $('#email').val("");
+                    $('#phone').val("");
+                    $('#message').val("");
+                    $("#submitButton").addClass("disabled");
+                },
+                error: function (e) {
+                    $("#submitProgressMessage").addClass("d-none");
+                    $("#submitSuccessMessage").addClass("d-none");
+                    $("#submitErrorMessage").removeClass("d-none");
+                    console.log(e);
+                },
+                complete: function () {
+                    // ajax 요청이 완료된 후에 수행할 작업
+                    $('#submitProgressMessage').addClass("d-none");
+                }
+            })
+
+            <%--let settings = {};--%>
+            <%--settings.url = "${pageContext.request.contextPath}/intro/contact/mailSend";--%>
+            <%--settings.data = formData;--%>
+            <%--settings.contentType = false;--%>
+            <%--settings.success = function (data) {--%>
+            <%--    console.log(data);--%>
+            <%--    if(data === "success"){--%>
+            <%--        $("#submitSuccessMessage").removeClass("d-none");--%>
+            <%--        $("#submitErrorMessage").addClass("d-none");--%>
+            <%--        $("#submitButton").addClass("disabled");--%>
+            <%--    }else{--%>
+            <%--        $("#submitSuccessMessage").addClass("d-none");--%>
+            <%--        $("#submitErrorMessage").removeClass("d-none");--%>
+            <%--    }--%>
+            <%--};--%>
+            <%--gnAjaxPost(settings)--%>
+
+        });
+    });
+
+</script>
 </body>
 </html>

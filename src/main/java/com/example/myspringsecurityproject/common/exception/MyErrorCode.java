@@ -16,7 +16,7 @@ public enum MyErrorCode {
     REQUEST_TIMEOUT_EXCEPTION(408, "Request Timeout Exception", "408"),
     USER_EXIST_EXCEPTION(400, "User Exist Exception", "409"),
 
-    ;
+    INTERNAL_SERVER_ERROR_EXCEPTION(500, "INTERNAL_SERVER_ERROR", "500"),;
 
     private final int status;
     private final String error;
