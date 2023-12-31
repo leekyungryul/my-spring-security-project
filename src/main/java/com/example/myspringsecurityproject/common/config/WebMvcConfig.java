@@ -18,7 +18,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addRedirectViewController("/", "/intro");
+        registry.addRedirectViewController("/", "/intro/list");
         registry.setOrder(1);
     }
 
